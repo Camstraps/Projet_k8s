@@ -1,0 +1,84 @@
+version: '3'
+
+services:
+  user.data:
+    image: redis
+    ports:
+      - 6379:6379
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - 15672:15672
+      - 5672:5672
+    container_name: rabbitmq
+    
+  webmvc:
+    image: web 
+    build:
+      context: ./
+      dockerfile: Web/Dockerfile
+    ports: 
+    - 8080:80
+    container_name: web
+    depends_on:
+      - applicants.api
+      - identity.api
+      - jobs.api
+    restart: always
+
+  applicants.api:
+    image: applicants.api
+    environment:
+      - ConnectionString=Server=sql.data;User=sa;Password=Pass@word;Database=dotnetgigs.applicants;
+      - HostRabbitmq=rabbitmq
+    build:
+      context: ./
+      dockerfile: Services/Applicants.Api/Dockerfile
+    ports: 
+    - 8081:80
+    container_name: applicants.api
+    depends_on:
+      - sql.data
+      - rabbitmq
+    restart: always
+
+  jobs.api:
+    image: jobs.api
+    environment:
+      - ConnectionString=Server=sql.data;User=sa;Password=Pass@word;Database=dotnetgigs.jobs;
+      - HostRabbitmq=rabbitmq 
+    build:
+      context: ./
+      dockerfile: Services/Jobs.Api/Dockerfile
+    ports: 
+    - 8083:80
+    container_name: jobs.api
+    depends_on:
+      - sql.data
+      - rabbitmq
+    restart: always
+
+  identity.api:
+    image: identity.api
+    environment:
+      - RedisHost=user.data:6379
+      - HostRabbitmq=rabbitmq
+    build:
+      context: ./
+      dockerfile: Services/Identity.Api/Dockerfile
+    ports: 
+    - 8084:80
+    container_name: identity.api
+    depends_on:
+      - user.data
+      - rabbitmq       
+
+  sql.data:
+    image: mssql-linux
+    build:
+      context: ./Database
+      dockerfile: Dockerfile
+    ports:
+      - 1433:1433
+    container_name: mssql-linux
