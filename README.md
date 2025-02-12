@@ -6,6 +6,8 @@ source ~/.config/envman/PATH.env
 
 # traefik
 #### chart helm traefik
+helm repo add traefik https://traefik.github.io/charts
+helm repo update
 helm install traefik traefik/traefik --namespace=traefik -f value.yaml
 helm upgrade traefik traefik/traefik --namespace traefik -f values.yaml
 #### Certificat
