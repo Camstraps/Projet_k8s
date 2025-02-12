@@ -1,8 +1,0 @@
-query:
-  enabled: true
-
-queryFrontend:
-  enabled: true
-
-minio:
-  enabled: true

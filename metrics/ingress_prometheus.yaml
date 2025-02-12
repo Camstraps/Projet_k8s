@@ -1,29 +1,29 @@
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: traefik-dashboard
-  namespace: traefik
+  name: prometheus-dashboard
+  namespace: monitoring
 spec:
   entryPoints:
     - web
     - websecure
   routes:
-    - match: Host(`traefikleo.local`)
+    - match: Host(`prometheusleo.local`)
       kind: Rule
       services:
-        - name: api@internal
-          kind: TraefikService
+        - name: prometheus-operated
+          port: 9090
   tls:
-    secretName: traefikleo-local-cert
+    secretName: prometheusleo-local-cert
     options:
-      name: tls-traefik
-      namespace: traefik
+      name: tls-prometheus
+      namespace: monitoring
 ---
 apiVersion: traefik.io/v1alpha1
 kind: TLSOption
 metadata:
-  name: tls-traefik
-  namespace: traefik
+  name: tls-prometheus
+  namespace: monitoring
 spec:
   minVersion: VersionTLS13
   cipherSuites:
