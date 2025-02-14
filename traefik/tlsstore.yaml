@@ -3,6 +3,7 @@ kind: TLSStore
 metadata:
   name: default
   namespace: traefik
+
 spec:
   defaultCertificate:
-    secretName: leo.local-cert
+    secretName: default-certificate

@@ -13,7 +13,7 @@ helm install traefik traefik/traefik --namespace=traefik -f traefik/value.yaml
 helm upgrade traefik traefik/traefik --namespace traefik -f traefik/value.yaml
 #### Certificat
 openssl req -x509 -newkey rsa:4096 -sha256 -days 365 -nodes -keyout leo.local.key -out leo.local.crt -subj "/CN=*.leo.local" -addext "subjectAltName=DNS:*.leo.local"
-kubectl create secret tls leo.local-cert --cert=leo.local.crt --key=leo.local.key --namespace=traefik
+kubectl create secret tls default-certificate --cert=leo.local.crt --key=leo.local.key --namespace=traefik
 kubectl apply -f tlsstore.yaml
 #### ingressroute & TLSOptions
 kubectl apply -f traefik/ingress_traefik.yaml

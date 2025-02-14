@@ -13,18 +13,4 @@ spec:
       services:
         - name: api@internal
           kind: TraefikService
-  tls:
-    store:
-      name: default
-    options:
-      name: tls-traefik
-      namespace: traefik
----
-apiVersion: traefik.io/v1alpha1
-kind: TLSOption
-metadata:
-  name: tls-traefik
-  namespace: traefik
-spec:
-  minVersion: VersionTLS13
-  sniStrict: true
+  tls: {}
