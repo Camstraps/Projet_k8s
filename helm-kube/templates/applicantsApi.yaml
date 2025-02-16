@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.applicantsApi.name }}
+  namespace: {{ .Values.applicantsApi.namespace }}
+spec:
+  replicas: {{ .Values.applicantsApi.replicas }}
+  selector:
+    matchLabels:
+      app: applicants
+  template:
+    metadata:
+      labels:
+        app: applicants
+    spec:
+      containers:
+        - name: applicants
+          image: {{ .Values.applicantsApi.image.repository }}:{{ .Values.applicantsApi.image.tag }}
+          ports:
+            - containerPort: 80
+          env:
+            - name: ConnectionString
+              value: "Server=sql-service;User=sa;Password=Pass@word;Database=dotnetgigs.applicants"
+            - name: HostRabbitmq
+              value: "rabbitmq-service"
+          resources:
+            requests:
+              cpu: {{ .Values.applicantsApi.resources.requests.cpu }}
+              memory: {{ .Values.applicantsApi.resources.requests.memory }}
+            limits:
+              cpu: {{ .Values.applicantsApi.resources.limits.cpu }}
+              memory: {{ .Values.applicantsApi.resources.limits.memory }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: applicants-service
+  namespace: ynov
+spec:
+  selector:
+    app: applicants
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
