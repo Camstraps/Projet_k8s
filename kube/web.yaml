@@ -19,12 +19,10 @@ spec:
           ports:
             - containerPort: 80
           env:
-            - name: APPLICANTS_API_URL
-              value: "http://applicants-service:80/api/applicants"
-            - name: IDENTITY_API_URL
-              value: "http://identity-service:80/api/identity"
-            - name: JOBS_API_URL
-              value: "http://jobs-service:80/api/jobs"
+            - name: ApiSettings__IdentityApiUrl
+              value: "http://identity-service"
+            - name: ApiSettings__JobsApiUrl
+              value: "http://jobs-service"
             - name: ASPNETCORE_ENVIRONMENT
               value: "Development"
 ---
