@@ -25,6 +25,13 @@ spec:
               value: "http://jobs-service"
             - name: ASPNETCORE_ENVIRONMENT
               value: "Development"
+          resources:
+            requests:
+              cpu: "4m"
+              memory: "900Mi"
+            limits:
+              cpu: "1"
+              memory: "2000Mi"
 ---
 apiVersion: v1
 kind: Service

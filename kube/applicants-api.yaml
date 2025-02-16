@@ -23,6 +23,13 @@ spec:
               value: "Server=sql-service;User=sa;Password=Pass@word;Database=dotnetgigs.applicants"
             - name: HostRabbitmq
               value: "rabbitmq-service"
+          resources:
+            requests:
+              cpu: "0.5"
+              memory: "500Mi"
+            limits:
+              cpu: "1"
+              memory: "1500Mi"
 ---
 apiVersion: v1
 kind: Service

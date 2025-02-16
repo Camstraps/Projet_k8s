@@ -18,6 +18,10 @@ spec:
           image: misterleo0/redis:latest
           ports:
             - containerPort: 6379
+          resources:
+            requests:
+              cpu: "4m"
+              memory: "500Mi"
 ---
 apiVersion: v1
 kind: Service

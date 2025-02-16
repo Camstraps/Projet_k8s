@@ -23,6 +23,13 @@ spec:
               value: "redis-service:6379"
             - name: HostRabbitmq
               value: "rabbitmq-service"
+          resources:
+            requests:
+              cpu: "0.5"
+              memory: "500Mi"
+            limits:
+              cpu: "1"
+              memory: "1500Mi"
 ---
 apiVersion: v1
 kind: Service
