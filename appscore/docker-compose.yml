@@ -12,6 +12,8 @@ services:
       - 15672:15672
       - 5672:5672
     container_name: rabbitmq
+    volumes:
+    - ./rabbitmq/init.sh:/docker-entrypoint-init.d/init.sh
     
   webmvc:
     image: web 
@@ -20,6 +22,9 @@ services:
       dockerfile: Web/Dockerfile
     ports: 
     - 8080:80
+    environment:
+      - ApiSettings__IdentityApiUrl=http://identity.api:80
+      - ApiSettings__JobsApiUrl:=http://jobs.api:80
     container_name: web
     depends_on:
       - applicants.api
@@ -62,6 +67,7 @@ services:
   identity.api:
     image: identity.api
     environment:
+
       - RedisHost=user.data:6379
       - HostRabbitmq=rabbitmq
     build:
