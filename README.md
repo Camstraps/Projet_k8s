@@ -9,7 +9,7 @@ source ~/.config/envman/PATH.env
 minikube tunnel
 #### Certificat
 openssl req -x509 -newkey rsa:4096 -sha256 -days 365 -nodes -keyout leo.local.key -out leo.local.crt -subj "/CN=*.leo.local" -addext "subjectAltName=DNS:*.leo.local"
-kubectl create secret tls default-certificate --cert=leo.local.crt --key=leo.local.key --namespace=traefik
+kubectl create secret tls traefik --cert=leo.local.crt --key=leo.local.key --namespace=traefik
 kubectl apply -f tlsstore.yaml
 # traefik
 #### chart helm traefik
