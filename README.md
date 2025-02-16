@@ -24,6 +24,12 @@ kubectl apply -f traefik/ingress_traefik.yaml
 helm install prometheus prometheus-community/kube-prometheus-stack --version 69.2.2 --namespace monitoring
 
 
+# Service
+
+Il faut modifier le fichier appseting.json dans web
+
+
+
 Outils :
 - Kubernetes
 - Prometheus
