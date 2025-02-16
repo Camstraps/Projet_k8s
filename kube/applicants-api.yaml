@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: applicants-deployment
+  namespace: ynov
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: applicants
+  template:
+    metadata:
+      labels:
+        app: applicants
+    spec:
+      containers:
+        - name: applicants
+          image: misterleo0/applicants.api:latest
+          ports:
+            - containerPort: 80
+          env:
+            - name: ConnectionString
+              value: "Server=sql-service;User=sa;Password=Pass@word;Database=dotnetgigs.applicants"
+            - name: HostRabbitmq
+              value: "rabbitmq-service"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: applicants-service
+  namespace: ynov
+spec:
+  selector:
+    app: applicants
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jobs-deployment
+  namespace: ynov
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jobs
+  template:
+    metadata:
+      labels:
+        app: jobs
+    spec:
+      containers:
+        - name: jobs
+          image: misterleo0/jobs.api:latest
+          ports:
+            - containerPort: 80
+          env:
+            - name: ConnectionString
+              value: "Server=sql-service;User=sa;Password=Pass@word;Database=dotnetgigs.jobs"
+            - name: HostRabbitmq
+              value: "rabbitmq-service"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jobs-service
+  namespace: ynov
+spec:
+  selector:
+    app: jobs
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

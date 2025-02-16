@@ -1,0 +1,31 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: web-ynov
+  namespace: ynov
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: Host(`webynov.leo.local`)
+      kind: Rule
+      services:
+        - name: web-service
+          port: 80
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: rabbit-ynov
+  namespace: ynov
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: Host(`rabbit.leo.local`)
+      kind: Rule
+      services:
+        - name: rabbitmq-service
+          port: 15672

@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+  namespace: ynov
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+        - name: web
+          image: misterleo0/web:latest
+          ports:
+            - containerPort: 80
+          env:
+            - name: APPLICANTS_API_URL
+              value: "http://applicants-service:80/api/applicants"
+            - name: IDENTITY_API_URL
+              value: "http://identity-service:80/api/identity"
+            - name: JOBS_API_URL
+              value: "http://jobs-service:80/api/jobs"
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Development"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-service
+  namespace: ynov
+spec:
+  selector:
+    app: web
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
