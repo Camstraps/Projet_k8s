@@ -24,6 +24,8 @@ helm install prometheus prometheus-community/kube-prometheus-stack --version 69.
 
 
 # Service
+#### Chart Helm
+helm install micro-service ./helm-kube --namespace ynov
 
 Il faut modifier le fichier appseting.json dans web
 
