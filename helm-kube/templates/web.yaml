@@ -18,18 +18,18 @@ spec:
           image: {{ .Values.web.image.repository }}:{{ .Values.web.image.tag }}
           ports:
             - containerPort: 80
-          readinessProbe:
-            httpGet:
-              path: /healthz
-              port: 80
-            initialDelaySeconds: 5
-            periodSeconds: 5
-          livenessProbe:
-            httpGet:
-              path: /healthz
-              port: 80
-            initialDelaySeconds: 15
-            periodSeconds: 10
+          # readinessProbe:
+          #   httpGet:
+          #     path: /healthz
+          #     port: 80
+          #   initialDelaySeconds: 5
+          #   periodSeconds: 5
+          # livenessProbe:
+          #   httpGet:
+          #     path: /healthz
+          #     port: 80
+          #   initialDelaySeconds: 15
+          #   periodSeconds: 10
           env:
             - name: ApiSettings__IdentityApiUrl
               value: "http://identity-service"
@@ -64,6 +64,12 @@ kind: IngressRoute
 metadata:
   name: {{ .Values.web.ingressroute.name }}
   namespace: {{ .Values.web.ingressroute.namespace }}
+  # annotations:
+  #   # Configuration des sondes de santé
+  #   traefik.ingress.kubernetes.io/router.healthcheck: "/healthz" # chemin de la sonde
+  #   traefik.ingress.kubernetes.io/router.healthcheck.interval: "5s" # fréquence des sondes
+  #   traefik.ingress.kubernetes.io/router.healthcheck.timeout: "3s"  # timeout des sondes
+  #   traefik.ingress.kubernetes.io/router.healthcheck.threshold: "3" # seuil de succès avant de rediriger le trafic
 spec:
   entryPoints:
     - web
