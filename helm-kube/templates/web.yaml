@@ -18,6 +18,18 @@ spec:
           image: {{ .Values.web.image.repository }}:{{ .Values.web.image.tag }}
           ports:
             - containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 80
+            initialDelaySeconds: 15
+            periodSeconds: 10
           env:
             - name: ApiSettings__IdentityApiUrl
               value: "http://identity-service"
