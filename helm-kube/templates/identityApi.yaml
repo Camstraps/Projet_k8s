@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.identityApi.name }}
+  namespace: {{ .Values.identityApi.namespace }}
+spec:
+  replicas: {{ .Values.identityApi.replicas }}
+  selector:
+    matchLabels:
+      app: identity
+  template:
+    metadata:
+      labels:
+        app: identity
+    spec:
+      containers:
+        - name: identity
+          image: {{ .Values.identityApi.image.repository }}:{{ .Values.identityApi.image.tag }}
+          ports:
+            - containerPort: 80
+          env:
+            - name: RedisHost
+              value: "redis-service:6379"
+            - name: HostRabbitmq
+              value: "rabbitmq-service"
+          resources:
+            requests:
+              cpu: {{ .Values.identityApi.resources.requests.cpu }}
+              memory: {{ .Values.identityApi.resources.requests.memory }}
+            limits:
+              cpu: {{ .Values.identityApi.resources.limits.cpu }}
+              memory: {{ .Values.identityApi.resources.limits.memory }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: identity-service
+  namespace: ynov
+spec:
+  selector:
+    app: identity
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

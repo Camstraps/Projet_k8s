@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.web.name }}
+  namespace: {{ .Values.web.namespace }}
+spec:
+  replicas: {{ .Values.web.replicas }}
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+        - name: web
+          image: {{ .Values.web.image.repository }}:{{ .Values.web.image.tag }}
+          ports:
+            - containerPort: 80
+          # readinessProbe:
+          #   httpGet:
+          #     path: /healthz
+          #     port: 80
+          #   initialDelaySeconds: 5
+          #   periodSeconds: 5
+          # livenessProbe:
+          #   httpGet:
+          #     path: /healthz
+          #     port: 80
+          #   initialDelaySeconds: 15
+          #   periodSeconds: 10
+          env:
+            - name: ApiSettings__IdentityApiUrl
+              value: "http://identity-service"
+            - name: ApiSettings__JobsApiUrl
+              value: "http://jobs-service"
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Development"
+          resources:
+            requests:
+              cpu: {{ .Values.web.resources.requests.cpu }}
+              memory: {{ .Values.web.resources.requests.memory }}
+            limits:
+              cpu: {{ .Values.web.resources.limits.cpu }}
+              memory: {{ .Values.web.resources.limits.memory }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-service
+  namespace: ynov
+spec:
+  selector:
+    app: web
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ .Values.web.ingressroute.name }}
+  namespace: {{ .Values.web.ingressroute.namespace }}
+  # annotations:
+  #   # Configuration des sondes de santé
+  #   traefik.ingress.kubernetes.io/router.healthcheck: "/healthz" # chemin de la sonde
+  #   traefik.ingress.kubernetes.io/router.healthcheck.interval: "5s" # fréquence des sondes
+  #   traefik.ingress.kubernetes.io/router.healthcheck.timeout: "3s"  # timeout des sondes
+  #   traefik.ingress.kubernetes.io/router.healthcheck.threshold: "3" # seuil de succès avant de rediriger le trafic
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: Host(`{{ .Values.web.ingressroute.dns }}`)
+      kind: Rule
+      services:
+        - name: web-service
+          port: 80
+  tls:
+    secretName: tls-all

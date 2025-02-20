@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sql
+  namespace: ynov
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sql
+  template:
+    metadata:
+      labels:
+        app: sql
+    spec:
+      containers:
+        - name: sql
+          image: misterleo0/mssql-linux:latest
+          ports:
+            - containerPort: 1433
+          env:
+            - name: SA_PASSWORD
+              value: "Pass@word"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sql-service
+  namespace: ynov
+spec:
+  selector:
+    app: sql
+  ports:
+    - protocol: TCP
+      port: 1433
+      targetPort: 1433
