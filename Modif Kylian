@@ -1,0 +1,11 @@
+
+
+Modification fichier appsettings.json
+
+
+"IdentityApiUrl": "http://identity.api:80",
+    "JobsApiUrl": "http://jobs.api:80"
+
+
+
+    
