@@ -5,7 +5,6 @@ metadata:
   namespace: traefik
 spec:
   entryPoints:
-    - web
     - websecure
   routes:
     - match: Host(`traefik.leo.local`)
