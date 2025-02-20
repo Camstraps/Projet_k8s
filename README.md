@@ -42,7 +42,7 @@ Application de l'ingress route pour treafik
 kubectl apply -f traefik/ingress_traefik.yaml
 ```
 # Certificat
-#### SSL
+### SSL
 Création d'un certificat avec OpenSSL pour tout les sous-domaine ``` *.leo.local ```
 ``` bash
 openssl req -x509 -newkey rsa:4096 -sha256 -days 365 -nodes -keyout leo.local.key -out leo.local.crt -subj "/CN=*.leo.local" -addext "subjectAltName=DNS:*.leo.local"
@@ -51,14 +51,14 @@ openssl req -x509 -newkey rsa:4096 -sha256 -days 365 -nodes -keyout leo.local.ke
 kubectl create secret tls traefik --cert=leo.local.crt --key=leo.local.key --namespace=xxxx
 ```
 # Micro-Service
-#### Helm
+### Helm
 Commande a exécuté a la racine de Projet_k8s
 ```bash
 helm install micro-service ./helm-kube --namespace ynov
 ```
 Il faut modifier le fichier appseting.json dans web pour généré une bonne image
 # Prometheus To-Do
-#### Install
+### Install
 helm install prometheus prometheus-community/kube-prometheus-stack --version 69.2.2 --namespace monitoring
 # ELK To-Do
 # Outils-k9s
