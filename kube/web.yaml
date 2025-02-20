@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+  namespace: ynov
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+        - name: web
+          image: misterleo0/web:latest
+          ports:
+            - containerPort: 80
+          env:
+            - name: ApiSettings__IdentityApiUrl
+              value: "http://identity-service"
+            - name: ApiSettings__JobsApiUrl
+              value: "http://jobs-service"
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Development"
+          resources:
+            requests:
+              cpu: "4m"
+              memory: "900Mi"
+            limits:
+              cpu: "1"
+              memory: "2000Mi"
+      # affinity:
+      #   podAffinity:
+      #     requiredDuringSchedulingIgnoredDuringExecution:
+      #       - labelSelector:
+      #           matchLabels:
+      #             app: jobs
+      #         topologyKey: "kubernetes.io/hostname"
+      #       - labelSelector:
+      #           matchLabels:
+      #             app: applicants
+      #         topologyKey: "kubernetes.io/hostname"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-service
+  namespace: ynov
+spec:
+  selector:
+    app: web
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer

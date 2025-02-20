@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.jobsApi.name }}
+  namespace: {{ .Values.jobsApi.namespace }}
+spec:
+  replicas: {{ .Values.jobsApi.replicas }}
+  selector:
+    matchLabels:
+      app: jobs
+  template:
+    metadata:
+      labels:
+        app: jobs
+    spec:
+      containers:
+        - name: jobs
+          image: {{ .Values.jobsApi.image.repository }}:{{ .Values.jobsApi.image.tag }}
+          ports:
+            - containerPort: 80
+          env:
+            - name: ConnectionString
+              value: "Server=sql-service;User=sa;Password=Pass@word;Database=dotnetgigs.jobs"
+            - name: HostRabbitmq
+              value: "rabbitmq-service"
+          resources:
+            requests:
+              cpu: {{ .Values.jobsApi.resources.requests.cpu }}
+              memory: {{ .Values.jobsApi.resources.requests.memory }}
+            limits:
+              cpu: {{ .Values.jobsApi.resources.limits.cpu }}
+              memory: {{ .Values.jobsApi.resources.limits.memory }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jobs-service
+  namespace: ynov
+spec:
+  selector:
+    app: jobs
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

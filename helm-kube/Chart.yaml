@@ -1,0 +1,5 @@
+apiVersion: v2
+name: web
+description: Chart helm pour deployer tout les micro-services ynov
+version: 0.1.0
+appVersion: "1.0"
