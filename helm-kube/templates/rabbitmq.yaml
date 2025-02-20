@@ -37,7 +37,7 @@ spec:
       protocol: TCP
       port: 5672
       targetPort: 5672
-  type: LoadBalancer
+  type: ClusterIP
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
