@@ -1,0 +1,33 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: prometheus
+  namespace: monitoring
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`prometheus.leo.local`)
+      kind: Rule
+      services:
+        - name: prometheus-operated
+          port: 9090
+  tls:
+    secretName: tls-all
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: grafana
+  namespace: monitoring
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`grafana.leo.local`)
+      kind: Rule
+      services:
+        - name: prometheus-grafana
+          port: 80
+  tls:
+    secretName: tls-all
