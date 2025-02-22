@@ -68,13 +68,13 @@ helm upgrade --install metrics-server bitnami/metrics-server -n monitoring -f me
 ```bash
 kubectl apply -f ingressroute.yaml
 ```
-### 🚦 les métriques de l'état du cluster:
+### 🚦 les métriques de l'état du cluster: :white_check_mark:
 | Objectif                          | Requête PromQL                                 | Explication |
 |------------------------------------|-----------------------------------------------|-------------|
-| Nombre total de nœuds             | `kube_node_info`                        | Affiche le nombre total de nœuds dans le cluster. | :white_check_mark: |
-| Nombre de nœuds Ready             | `kube_node_status_condition{condition="Ready",status="true"}` | Compte les nœuds qui sont **Ready**. | :white_check_mark: |
-| Nombre de nœuds NotReady          | `kube_node_status_condition{condition="Ready",status="false"}` | Compte les nœuds **non disponibles**. | :white_check_mark: |
-| État des pods (Running, Pending)  | `kube_pod_status_phase{namespace="ynov"}`                        | Affiche le nombre de pods dans chaque état. | :white_check_mark: |
+| Nombre total de nœuds             | `kube_node_info`                        | Affiche le nombre total de nœuds dans le cluster. |
+| Nombre de nœuds Ready             | `kube_node_status_condition{condition="Ready",status="true"}` | Compte les nœuds qui sont **Ready**. |
+| Nombre de nœuds NotReady          | `kube_node_status_condition{condition="Ready",status="false"}` | Compte les nœuds **non disponibles**. |
+| État des pods (Running, Pending)  | `kube_pod_status_phase{namespace="ynov"}`                        | Affiche le nombre de pods dans chaque état. |
 
 
 ### 📡 Ressources des Nœuds et des Pods
@@ -84,7 +84,7 @@ kubectl apply -f ingressroute.yaml
 | Utilisation CPU des nœuds         | `sum(rate(node_cpu_seconds_total[5m])) by (instance)` | Affiche la consommation CPU de chaque nœud. |
 | Utilisation mémoire des nœuds     | `node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100` | Pourcentage de mémoire disponible. |
 | Utilisation CPU des pods          | `sum(rate(container_cpu_usage_seconds_total[5m])) by (pod)` | Consommation CPU par pod. |
-| Utilisation mémoire des pods      | `sum(container_memory_usage_bytes) by (pod) / 1073741824`  | Consommation mémoire par pod. | :white_check_mark: |
+| Utilisation mémoire des pods      | `sum(container_memory_usage_bytes) by (pod) / 1073741824`:white_check_mark:  | Consommation mémoire par pod. |
 | Charge du kube-apiserver          | `rate(apiserver_request_total[5m])`           | Nombre de requêtes envoyées à l’API Kubernetes. |
 | État des composants du cluster    | `up`                                          | Vérifie si les composants sont UP ou DOWN. |
 
