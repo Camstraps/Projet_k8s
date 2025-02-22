@@ -1,0 +1,26 @@
+image:
+  registry: docker.io
+  repository: bitnami/metrics-server
+  tag: 0.7.2-debian-12-r16
+
+replicas: 1
+
+resources:
+  requests:
+    cpu: "200m"
+    memory: "250Mi"
+  limits:
+    cpu: "500m"
+    memory: "512Mi"
+
+containerPorts:
+  https: 8443
+
+service:
+  type: ClusterIP
+  ports:
+    https: 443
+apiService:
+  create: true
+extraArgs:
+  - --kubelet-insecure-tls

@@ -60,13 +60,18 @@ Il faut modifier le fichier appseting.json dans web pour généré une bonne ima
 # Prometheus To-Do
 ### Install
 ```bash
-helm install prometheus prometheus-community/kube-prometheus-stack --version 69.4.1 -n monitoring -f value.yaml
+helm upgrade --install prometheus prometheus-community/kube-prometheus-stack --version 69.4.1 -n monitoring -f prometheus_value.yaml
 ```
 ```bash
 kubectl apply -f ingressroute.yaml
 ```
+```bash
+helm upgrade --install metrics-server bitnami/metrics-server -n monitoring -f metrics_server_value.yaml
+```
+Pour voir les metrics cpu ou ram des namespace:
+container_cpu_usage_seconds_total{namespace="ynov"}
+container_memory_usage_bytes{namespace="ynov"}
 
-helm install my-metrics-server bitnami/metrics-server --version 7.4.0 -n monitoring
 
 # ELK To-Do
 # Outils-k9s

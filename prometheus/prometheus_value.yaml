@@ -1,0 +1,45 @@
+### operator
+prometheusOperator:
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "100Mi"
+    limits:
+      cpu: "200m"
+      memory: "200Mi"
+
+### Prometheus
+prometheus:
+  enabled: true
+  prometheusSpec:
+    replicas: 1
+    retention: 1d
+    image:
+      registry: quay.io
+      repository: prometheus/prometheus
+      tag: v3.1.0
+    resources:
+      requests:
+        cpu: "200m"
+        memory: "250Mi"
+      limits:
+        cpu: "500m"
+        memory: "512Mi"
+    # additionalScrapeConfigs:
+    #   - job_name: 'metrics-server'
+    #     scheme: https
+    #     tls_config:
+    #       insecure_skip_verify: true
+    #     static_configs:
+    #       - targets: ['metrics-server.monitoring.svc.cluster.local:443']
+
+kubeControllerManager:
+  enabled: false
+kubeEtcd:
+  enabled: false
+kubeScheduler:
+  enabled: false
+alertmanager:
+  enabled: false
+grafana:
+  enabled: false
