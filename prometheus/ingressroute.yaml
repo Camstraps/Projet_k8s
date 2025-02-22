@@ -18,16 +18,16 @@ spec:
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: grafana
+  name: node-exporter
   namespace: monitoring
 spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`grafana.leo.local`)
+    - match: Host(`node-exporter.leo.local`)
       kind: Rule
       services:
-        - name: prometheus-grafana
-          port: 80
+        - name: prometheus-prometheus-node-exporter
+          port: 9100
   tls:
     secretName: tls-all

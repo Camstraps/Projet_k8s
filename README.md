@@ -59,7 +59,15 @@ helm install micro-service ./helm-kube --namespace ynov
 Il faut modifier le fichier appseting.json dans web pour généré une bonne image
 # Prometheus To-Do
 ### Install
-helm install prometheus prometheus-community/kube-prometheus-stack --version 69.2.2 --namespace monitoring
+```bash
+helm install prometheus prometheus-community/kube-prometheus-stack --version 69.4.1 -n monitoring -f value.yaml
+```
+```bash
+kubectl apply -f ingressroute.yaml
+```
+
+helm install my-metrics-server bitnami/metrics-server --version 7.4.0 -n monitoring
+
 # ELK To-Do
 # Outils-k9s
 ### k9s
