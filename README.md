@@ -91,10 +91,7 @@ up{job="kube-state-metrics"}
 up{job="kube-proxy"}
 up{job="apiserver"}
 up{job="kubelet"}
-
-Pour voir les metrics cpu ou ram des namespace:
-container_cpu_usage_seconds_total{namespace="ynov"}
-container_memory_usage_bytes{namespace="ynov"}
+### Manque de voir outil metrics-server
 
 
 # ELK To-Do
