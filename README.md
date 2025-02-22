@@ -57,7 +57,7 @@ Commande a exécuté a la racine de Projet_k8s
 helm install micro-service ./helm-kube --namespace ynov
 ```
 Il faut modifier le fichier appseting.json dans web pour généré une bonne image
-# Prometheus To-Do
+# Prometheus
 ### Install
 ```bash
 helm upgrade --install prometheus prometheus-community/kube-prometheus-stack --version 69.4.1 -n monitoring -f prometheus_value.yaml
