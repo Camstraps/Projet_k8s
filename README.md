@@ -71,7 +71,7 @@ kubectl apply -f ingressroute.yaml
 ### 🚦 les métriques de l'état du cluster:
 | Objectif                          | Requête PromQL                                 | Explication |
 |------------------------------------|-----------------------------------------------|-------------|
-| Nombre total de nœuds             | `count(kube_node_info)`                        | Affiche le nombre total de nœuds dans le cluster. |
+| Nombre total de nœuds             | `kube_node_info`                        | Affiche le nombre total de nœuds dans le cluster. |
 | Nombre de nœuds Ready             | `kube_node_status_condition{condition="Ready",status="true"}` | Compte les nœuds qui sont **Ready**. |
 | Nombre de nœuds NotReady          | `kube_node_status_condition{condition="Ready",status="false"}` | Compte les nœuds **non disponibles**. |
 | État des pods (Running, Pending)  | `kube_pod_status_phase`                        | Affiche le nombre de pods dans chaque état. |
