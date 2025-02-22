@@ -68,6 +68,12 @@ kubectl apply -f ingressroute.yaml
 ```bash
 helm upgrade --install metrics-server bitnami/metrics-server -n monitoring -f metrics_server_value.yaml
 ```
+##### les métriques de l'état du cluster:
+node_cpu_seconds_total
+node_memory_MemAvailable_bytes
+
+
+
 Pour voir les metrics cpu ou ram des namespace:
 container_cpu_usage_seconds_total{namespace="ynov"}
 container_memory_usage_bytes{namespace="ynov"}
