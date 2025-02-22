@@ -79,9 +79,8 @@ kubectl apply -f ingressroute.yaml
 | Nombre de pods en échec           | `count(kube_pod_status_phase{phase=~"Failed|Pending"})` | Indique les pods qui rencontrent des problèmes. |
 | Fréquence des redémarrages de pods | `kube_pod_container_status_restarts_total`    | Affiche les pods en **CrashLoopBackOff**. |
 
----
 
-## 📡 Ressources des Nœuds et des Pods
+### 📡 Ressources des Nœuds et des Pods
 
 | Objectif                          | Requête PromQL                                 | Explication |
 |------------------------------------|-----------------------------------------------|-------------|
