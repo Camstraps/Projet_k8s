@@ -68,7 +68,7 @@ helm upgrade --install metrics-server bitnami/metrics-server -n monitoring -f me
 ```bash
 kubectl apply -f ingressroute.yaml
 ```
-### 🚦 les métriques de l'état du cluster: :white_check_mark:
+### 🚦 les métriques de l'état du cluster:
 | Objectif                          | Requête PromQL                                 | Explication |
 |------------------------------------|-----------------------------------------------|-------------|
 | Nombre total de nœuds             | `kube_node_info`                        | Affiche le nombre total de nœuds dans le cluster. |
@@ -81,10 +81,10 @@ kubectl apply -f ingressroute.yaml
 
 | Objectif                          | Requête PromQL                                 | Explication |
 |------------------------------------|-----------------------------------------------|-------------|
-| Utilisation CPU des nœuds         | `sum(rate(node_cpu_seconds_total[5m])) by (instance)` | Affiche la consommation CPU de chaque nœud. |
-| Utilisation mémoire des nœuds     | `node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100`:white_check_mark: | Pourcentage de mémoire disponible. |
-| Utilisation CPU des pods          | `sum(rate(container_cpu_usage_seconds_total[5m])) by (pod) * 1000`:white_check_mark: | Consommation CPU par pod. |
-| Utilisation mémoire des pods      | `sum(container_memory_usage_bytes) by (pod) / 1073741824`:white_check_mark:  | Consommation mémoire par pod. |
+| Utilisation CPU des nœuds         | `100 - (avg(rate(node_cpu_seconds_total{mode="idle"}[5m])) by (instance) * 100)` | Affiche la consommation CPU de chaque nœud. |
+| Utilisation mémoire des nœuds     | `node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100` | Pourcentage de mémoire disponible. |
+| Utilisation CPU des pods          | `sum(rate(container_cpu_usage_seconds_total[5m])) by (pod) * 1000` | Consommation CPU par pod. |
+| Utilisation mémoire des pods      | `sum(container_memory_usage_bytes) by (pod) / 1073741824` | Consommation mémoire par pod. |
 | État des composants du cluster    | `up`:white_check_mark:                                          | Vérifie si les composants sont UP ou DOWN. |
 
 
