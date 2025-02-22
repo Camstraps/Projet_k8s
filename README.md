@@ -81,7 +81,7 @@ kubectl apply -f ingressroute.yaml
 
 | Objectif                          | Requête PromQL                                 | Explication |
 |------------------------------------|-----------------------------------------------|-------------|
-| Utilisation CPU des nœuds         | `100 - (avg(rate(node_cpu_seconds_total{mode="idle"}[5m])) by (instance) * 100)` | Affiche la consommation CPU de chaque nœud. |
+| Utilisation CPU des nœuds         | `100 - (avg(rate(node_cpu_seconds_total{mode="idle"}[5m])) by (instance) * 100)` | Affiche la consommation CPU de chaque nœud %. |
 | Utilisation mémoire des nœuds     | `node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100` | Pourcentage de mémoire disponible. |
 | Utilisation CPU des pods          | `sum(rate(container_cpu_usage_seconds_total[5m])) by (pod) * 1000` | Consommation CPU par pod. |
 | Utilisation mémoire des pods      | `sum(container_memory_usage_bytes) by (pod) / 1073741824` | Consommation mémoire par pod. |
