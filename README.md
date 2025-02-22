@@ -85,9 +85,12 @@ kubectl apply -f ingressroute.yaml
 | DIsponible mémoire des nœuds     | `node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100` | Pourcentage de mémoire disponible. |
 | Utilisation CPU des pods          | `sum(rate(container_cpu_usage_seconds_total[5m])) by (pod) * 1000` | Consommation CPU par pod. |
 | Utilisation mémoire des pods      | `sum(container_memory_usage_bytes) by (pod) / 1073741824` | Consommation mémoire par pod. |
-| État des composants du cluster    | `up`:white_check_mark:                                          | Vérifie si les composants sont UP ou DOWN. |
+| État des composants du cluster    | `up`                                          | Vérifie si les composants sont UP ou DOWN. |
 
-
+up{job="kube-state-metrics"}
+up{job="kube-proxy"}
+up{job="apiserver"}
+up{job="kubelet"}
 
 Pour voir les metrics cpu ou ram des namespace:
 container_cpu_usage_seconds_total{namespace="ynov"}
