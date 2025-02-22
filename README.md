@@ -75,8 +75,6 @@ kubectl apply -f ingressroute.yaml
 | Nombre de nœuds Ready             | `kube_node_status_condition{condition="Ready",status="true"}` | Compte les nœuds qui sont **Ready**. |
 | Nombre de nœuds NotReady          | `kube_node_status_condition{condition="Ready",status="false"}` | Compte les nœuds **non disponibles**. |
 | État des pods (Running, Pending)  | `kube_pod_status_phase{namespace="ynov"}`                        | Affiche le nombre de pods dans chaque état. |
-| Nombre de pods en échec           | `count(kube_pod_status_phase{phase=~"Failed|Pending"})` | Indique les pods qui rencontrent des problèmes. |
-| Fréquence des redémarrages de pods | `kube_pod_container_status_restarts_total`    | Affiche les pods en **CrashLoopBackOff**. |
 
 
 ### 📡 Ressources des Nœuds et des Pods
