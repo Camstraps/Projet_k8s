@@ -7,6 +7,20 @@ prometheusOperator:
     limits:
       cpu: "200m"
       memory: "200Mi"
+  livenessProbe: # Requete HTTP a /healthz check si le pod est toujours vivant MDR
+    enabled: true
+    failureThreshold: 3 # 3 test sinon il restart
+    initialDelaySeconds: 2 # 2 sec avant de commencer les vérifications.
+    periodSeconds: 10 # Test toutes les 10 secondes
+    timeoutSeconds: 1 # On attend 2 sec sinon frero ton pod est mort MDR
+
+  readinessProbe: # Check de la reception du traffic
+    enabled: true
+    failureThreshold: 3
+    initialDelaySeconds: 0
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
 
 ### Prometheus
 prometheus:
