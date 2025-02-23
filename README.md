@@ -84,14 +84,33 @@ kubectl apply -f ingressroute.yaml
 | Utilisation mémoire des pods      | `sum(container_memory_usage_bytes) by (pod) / 1073741824` | Consommation mémoire par pod. |
 | État des composants du cluster    | `up`                                          | Vérifie si les composants sont UP ou DOWN. |
 
-group by (job) (up)
-up{job="kube-state-metrics"}
-up{job="kube-proxy"}
-up{job="apiserver"}
-up{job="kubelet"}
+ - group by (job) (up)
+ - up{job="kube-state-metrics"}
+ - up{job="kube-proxy"}
+ - up{job="apiserver"}
+ - up{job="kubelet"}
 
 
 # ELK To-Do
+
+
+
+```
+helm install elk oci://registry-1.docker.io/bitnamicharts/elasticsearch -f ELK/values.yaml -n monitoring
+```
+```
+kubectl apply -f ELK/ingressroute.yaml
+```
+## Kibana
+
+```bash
+helm install elk-kibana bitnami/kibana --namespace monitoring
+```
+
+```bash
+helm upgrade --namespace monitoring elk-kibana oci://registry-1.docker.io/bitnamicharts/kibana  --set "elasticsearch.hosts[0]=elk-elasticsearch,elasticsearch.port=9200"
+```
+
 # Outils-k9s
 ### k9s
 Outils CLI Pour la gestions de k8s
