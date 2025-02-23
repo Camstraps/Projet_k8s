@@ -35,11 +35,12 @@ apiVersion: v1
 kind: Service
 metadata:
   name: jobs-service
-  namespace: ynov
+  namespace: {{ .Values.jobsApi.namespace }}
 spec:
   selector:
     app: jobs
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 80
+      port: {{ .Values.jobsApi.service.port }}
+      targetPort: {{ .Values.jobsApi.service.targetport }}
+  type: {{ .Values.jobsApi.service.type }}

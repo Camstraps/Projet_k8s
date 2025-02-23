@@ -37,7 +37,7 @@ spec:
       protocol: TCP
       port: {{ .Values.rabbitmq.service.messaging.port }}
       targetPort: {{ .Values.rabbitmq.service.messaging.targetport }}
-  type: ClusterIP
+  type: {{ .Values.rabbitmq.service.messaging.type }}
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
