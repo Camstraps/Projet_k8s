@@ -22,6 +22,11 @@ minikube tunnel
 ```bash 
 minikube addons enable metrics-server
 ```
+## Repo helm
+Ajout de la chart bitnami utilisé dans la pluspart des charts présente ici
+```bash
+helm repo add bitnami https://charts.bitnami.com/bitnami
+```
 # Traefik
 ### Installation
 Ajoute repo helm treafik:
@@ -94,19 +99,23 @@ kubectl apply -f ingressroute.yaml
 # ELK To-Do
 
 
-
-```
+Installation ELK
+```bash
 helm install elk oci://registry-1.docker.io/bitnamicharts/elasticsearch -f ELK/values.yaml -n monitoring
 ```
-```
+
+Application de l'Ingressroute
+```bash
 kubectl apply -f ELK/ingressroute.yaml
 ```
 ## Kibana
 
+Installation Kibana
 ```bash
 helm install elk-kibana bitnami/kibana --namespace monitoring
 ```
 
+Upgrade pour ajouter le serveur ELK
 ```bash
 helm upgrade --namespace monitoring elk-kibana oci://registry-1.docker.io/bitnamicharts/kibana  --set "elasticsearch.hosts[0]=elk-elasticsearch,elasticsearch.port=9200"
 ```
@@ -114,6 +123,12 @@ helm upgrade --namespace monitoring elk-kibana oci://registry-1.docker.io/bitnam
 # Outils-k9s
 ### k9s
 Outils CLI Pour la gestions de k8s
+
+Installation: Arch
+```bash
+sudo pacman -S k9s
+```
+
 Installation: Ubuntu/Deb
 ```bash
 curl -sS https://webinstall.dev/k9s | bash
