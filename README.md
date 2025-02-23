@@ -18,6 +18,10 @@ Expose L'ip des pods sur la machine Hote
 ```bash 
 minikube tunnel
 ```
+### Active metrics-server
+```bash 
+minikube addons enable metrics-server
+```
 # Traefik
 ### Installation
 Ajoute repo helm treafik:
@@ -87,11 +91,11 @@ kubectl apply -f ingressroute.yaml
 | Utilisation mémoire des pods      | `sum(container_memory_usage_bytes) by (pod) / 1073741824` | Consommation mémoire par pod. |
 | État des composants du cluster    | `up`                                          | Vérifie si les composants sont UP ou DOWN. |
 
+group by (job) (up)
 up{job="kube-state-metrics"}
 up{job="kube-proxy"}
 up{job="apiserver"}
 up{job="kubelet"}
-### Manque de voir outil metrics-server
 
 
 # ELK To-Do

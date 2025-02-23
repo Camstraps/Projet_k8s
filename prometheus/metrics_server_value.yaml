@@ -16,11 +16,19 @@ resources:
 containerPorts:
   https: 8443
 
+livenessProbe:
+  enabled: false
+
+readinessProbe:
+  enabled: false
+
 service:
   type: ClusterIP
   ports:
     https: 443
 apiService:
   create: true
-extraArgs:
+args:
   - --kubelet-insecure-tls
+  - --kubelet-preferred-address-types=InternalIP
+  - --secure-port=8443

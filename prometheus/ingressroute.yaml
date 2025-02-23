@@ -14,20 +14,3 @@ spec:
           port: 9090
   tls:
     secretName: tls-all
----
-apiVersion: traefik.io/v1alpha1
-kind: IngressRoute
-metadata:
-  name: node-exporter
-  namespace: monitoring
-spec:
-  entryPoints:
-    - websecure
-  routes:
-    - match: Host(`node-exporter.leo.local`)
-      kind: Rule
-      services:
-        - name: prometheus-prometheus-node-exporter
-          port: 9100
-  tls:
-    secretName: tls-all
