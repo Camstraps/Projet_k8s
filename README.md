@@ -67,9 +67,6 @@ Il faut modifier le fichier appseting.json dans web pour généré une bonne ima
 helm upgrade --install prometheus prometheus-community/kube-prometheus-stack --version 69.4.1 -n monitoring -f prometheus_value.yaml
 ```
 ```bash
-helm upgrade --install metrics-server bitnami/metrics-server -n monitoring -f metrics_server_value.yaml
-```
-```bash
 kubectl apply -f ingressroute.yaml
 ```
 ### 🚦 les métriques de l'état du cluster:
