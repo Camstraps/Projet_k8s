@@ -22,6 +22,12 @@ minikube tunnel
 ```bash 
 minikube addons enable metrics-server
 ```
+### Config systeme pour elk
+```bash
+minikube ssh -- "echo 'vm.max_map_count=262144' | sudo tee -a /etc/sysctl.conf && \
+                 echo 'fs.file-max=65536' | sudo tee -a /etc/sysctl.conf && \
+                 sudo sysctl -p"
+```
 ## Repo helm
 Ajout de la chart bitnami utilisé dans la pluspart des charts présente ici
 ```bash
@@ -65,10 +71,10 @@ Il faut modifier le fichier appseting.json dans web pour généré une bonne ima
 # Prometheus
 ### Install
 ```bash
-helm upgrade --install prometheus prometheus-community/kube-prometheus-stack --version 69.4.1 -n monitoring -f prometheus_value.yaml
+helm upgrade --install prometheus prometheus-community/kube-prometheus-stack --version 69.4.1 -n monitoring -f prometheus/prometheus_value.yaml
 ```
 ```bash
-kubectl apply -f ingressroute.yaml
+kubectl apply -f prometheus/ingressroute.yaml
 ```
 ### 🚦 les métriques de l'état du cluster:
 | Objectif                          | Requête PromQL                                 | Explication |
@@ -120,6 +126,26 @@ Upgrade pour ajouter le serveur ELK
 helm upgrade --namespace monitoring elk-kibana oci://registry-1.docker.io/bitnamicharts/kibana  --set "elasticsearch.hosts[0]=elk-elasticsearch,elasticsearch.port=9200"
 ```
 
+## Filebeat
+### Ajout du repo pour filebeat
+```bash
+helm repo add elastic https://helm.elastic.co
+```
+Update
+```bash
+helm repo update
+```
+### Creation du secret pour la lisaison avec elk
+```bash
+kubectl create secret generic elasticsearch-master-credentials \
+  --from-literal=username=elastic \
+  --from-literal=password=Btssio75000 \
+  -n monitoring
+```
+### Installation
+```bash
+helm upgrade --install filebeat elastic/filebeat --namespace monitoring  -f filebeat/values.yaml
+```
 # Outils-k9s
 ### k9s
 Outils CLI Pour la gestions de k8s
