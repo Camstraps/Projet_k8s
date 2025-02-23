@@ -4,14 +4,14 @@
  - [Traefik](#Traefik)             :white_check_mark:
  - [Certificat](#Certificat)       :white_check_mark:
  - [Micro-Service](#Micro-Service) :white_check_mark:
- - [Prometheus](#Prometheus)       :x:
+ - [Prometheus](#Prometheus)       :white_check_mark:
  - [ELK](#ELK)                     :x:
  - [Outils-k9s](#Outils-k9s)       :white_check_mark:
 
 # Minikube
 ### Start
 ```bash
-minikube start --cpus=8 --memory=16384 --disk-size=40g 
+minikube start --cpus=8 --memory=16384 --disk-size=40g
 ```
 ### Tunnel
 Expose L'ip des pods sur la machine Hote
