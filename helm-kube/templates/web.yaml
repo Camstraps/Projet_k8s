@@ -78,6 +78,6 @@ spec:
       kind: Rule
       services:
         - name: web-service
-          port: 80
+          port: {{ .Values.web.service.port }}
   tls:
     secretName: tls-all

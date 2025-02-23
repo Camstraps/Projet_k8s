@@ -24,19 +24,19 @@ apiVersion: v1
 kind: Service
 metadata:
   name: rabbitmq-service
-  namespace: ynov
+  namespace: {{ .Values.rabbitmq.namespace }}
 spec:
   selector:
     app: rabbitmq
   ports:
     - name: management
       protocol: TCP
-      port: 15672
-      targetPort: 15672
+      port: {{ .Values.rabbitmq.service.management.port }}
+      targetPort: {{ .Values.rabbitmq.service.management.targetport }}
     - name: messaging
       protocol: TCP
-      port: 5672
-      targetPort: 5672
+      port: {{ .Values.rabbitmq.service.messaging.port }}
+      targetPort: {{ .Values.rabbitmq.service.messaging.targetport }}
   type: ClusterIP
 ---
 apiVersion: traefik.io/v1alpha1
@@ -52,6 +52,6 @@ spec:
       kind: Rule
       services:
         - name: rabbitmq-service
-          port: 15672
+          port: {{ .Values.rabbitmq.service.management.port }}
   tls:
     secretName: tls-all

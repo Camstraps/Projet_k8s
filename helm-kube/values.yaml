@@ -65,6 +65,14 @@ rabbitmq:
     name: rabbit-ynov
     namespace: ynov
     dns: rabbit.leo.local
+  service:
+    type: ClusterIP
+    management:
+      port: 15672
+      targetport: 15672
+    messaging:
+      port: 5672
+      targetport: 5672
 
 jobsApi:
   name: jobs-api
