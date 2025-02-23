@@ -13,10 +13,14 @@ web:
     limits:
       cpu: "1"
       memory: "2000Mi"
+  containerport: 80
   ingressroute:
     name: web-ynov
-    namespace: ynov
     dns: webynov.leo.local
+  service:
+    type: ClusterIP
+    port: 80
+    targetport: 80
 
 sql:
   name: sql
@@ -25,8 +29,13 @@ sql:
   image:
     repository: misterleo0/mssql-linux
     tag: latest
+  containerport: 1433
   db:
     password: "Pass@word"
+  service:
+    type: ClusterIP
+    port: 1433
+    targetport: 1433
 
 redis:
   name: redis
