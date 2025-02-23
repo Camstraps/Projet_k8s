@@ -126,3 +126,7 @@ applicantsApi:
     limits:
       cpu: "1"
       memory: "1500Mi"
+  service:
+    type: ClusterIP
+    port: 80
+    targetport: 80
