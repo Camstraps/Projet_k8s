@@ -14,10 +14,10 @@ spec:
         app: web
     spec:
       containers:
-        - name: web
+        - name: {{ .Values.web.name }}
           image: {{ .Values.web.image.repository }}:{{ .Values.web.image.tag }}
           ports:
-            - containerPort: 80
+            - containerPort: {{ .Values.web.containerport }}
           # readinessProbe:
           #   httpGet:
           #     path: /healthz
@@ -49,21 +49,21 @@ apiVersion: v1
 kind: Service
 metadata:
   name: web-service
-  namespace: ynov
+  namespace: {{ .Values.web.namespace }}
 spec:
   selector:
     app: web
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 80
-  type: ClusterIP
+      port: {{ .Values.web.service.port }}
+      targetPort: {{ .Values.web.service.targetport }}
+  type: {{ .Values.web.service.type }}
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: {{ .Values.web.ingressroute.name }}
-  namespace: {{ .Values.web.ingressroute.namespace }}
+  namespace: {{ .Values.web.namespace }}
   # annotations:
   #   # Configuration des sondes de santé
   #   traefik.ingress.kubernetes.io/router.healthcheck: "/healthz" # chemin de la sonde
@@ -78,6 +78,6 @@ spec:
       kind: Rule
       services:
         - name: web-service
-          port: 80
+          port: {{ .Values.web.service.port }}
   tls:
     secretName: tls-all

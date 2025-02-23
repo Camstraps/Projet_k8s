@@ -1,0 +1,58 @@
+### operator
+prometheusOperator:
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "100Mi"
+    limits:
+      cpu: "200m"
+      memory: "200Mi"
+  livenessProbe: # Requete HTTP a /healthz check si le pod est toujours vivant MDR
+    enabled: true
+    failureThreshold: 3 # 3 test sinon il restart
+    initialDelaySeconds: 2 # 2 sec avant de commencer les vérifications.
+    periodSeconds: 10 # Test toutes les 10 secondes
+    timeoutSeconds: 1 # On attend 2 sec sinon frero ton pod est mort MDR
+  readinessProbe: # Check de la reception du traffic
+    enabled: true
+    failureThreshold: 3
+    initialDelaySeconds: 2
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
+
+### Prometheus
+prometheus:
+  enabled: true
+  prometheusSpec:
+    replicas: 1
+    retention: 1d
+    image:
+      registry: quay.io
+      repository: prometheus/prometheus
+      tag: v3.1.0
+    resources:
+      requests:
+        cpu: "200m"
+        memory: "250Mi"
+      limits:
+        cpu: "500m"
+        memory: "512Mi"
+    # additionalScrapeConfigs:
+    #   - job_name: 'metrics-server'
+    #     scheme: https
+    #     tls_config:
+    #       insecure_skip_verify: true
+    #     static_configs:
+    #       - targets: ['metrics-server.monitoring.svc.cluster.local:443']
+
+kubeControllerManager:
+  enabled: false
+kubeEtcd:
+  enabled: false
+kubeScheduler:
+  enabled: false
+alertmanager:
+  enabled: false
+grafana:
+  enabled: false

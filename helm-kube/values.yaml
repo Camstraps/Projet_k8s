@@ -13,10 +13,14 @@ web:
     limits:
       cpu: "1"
       memory: "2000Mi"
+  containerport: 80
   ingressroute:
     name: web-ynov
-    namespace: ynov
     dns: webynov.leo.local
+  service:
+    type: ClusterIP
+    port: 80
+    targetport: 80
 
 sql:
   name: sql
@@ -25,8 +29,13 @@ sql:
   image:
     repository: misterleo0/mssql-linux
     tag: latest
+  containerport: 1433
   db:
     password: "Pass@word"
+  service:
+    type: ClusterIP
+    port: 1433
+    targetport: 1433
 
 redis:
   name: redis
@@ -39,6 +48,11 @@ redis:
     requests:
       cpu: "4m"
       memory: "500Mi"
+  containerport: 6379
+  service:
+    type: ClusterIP
+    port: 6379
+    targetport: 6379
 
 rabbitmq:
   name: rabbitmq
@@ -51,6 +65,14 @@ rabbitmq:
     name: rabbit-ynov
     namespace: ynov
     dns: rabbit.leo.local
+  service:
+    type: ClusterIP
+    management:
+      port: 15672
+      targetport: 15672
+    messaging:
+      port: 5672
+      targetport: 5672
 
 jobsApi:
   name: jobs-api
@@ -66,6 +88,10 @@ jobsApi:
     limits:
       cpu: "1"
       memory: "1500Mi"
+  service:
+    type: ClusterIP
+    port: 80
+    targetport: 80
 
 identityApi:
   name: identity-api
@@ -81,6 +107,10 @@ identityApi:
     limits:
       cpu: "1"
       memory: "1500Mi"
+  service:
+    type: ClusterIP
+    port: 80
+    targetport: 80
 
 applicantsApi:
   name: applicants-api
@@ -96,3 +126,7 @@ applicantsApi:
     limits:
       cpu: "1"
       memory: "1500Mi"
+  service:
+    type: ClusterIP
+    port: 80
+    targetport: 80

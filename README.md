@@ -18,6 +18,10 @@ Expose L'ip des pods sur la machine Hote
 ```bash 
 minikube tunnel
 ```
+### Active metrics-server
+```bash 
+minikube addons enable metrics-server
+```
 # Traefik
 ### Installation
 Ajoute repo helm treafik:
@@ -30,11 +34,7 @@ helm repo update
 ```
 Installation de treafik a partir de sa charte helm
 ```bash
-helm install traefik traefik/traefik --namespace traefik -f traefik/value.yaml
-```
-Upgrade treafik helm
-```bash
-helm upgrade traefik traefik/traefik --namespace traefik -f traefik/value.yaml
+helm upgrade --install traefik traefik/traefik --namespace traefik -f traefik/value.yaml
 ```
 ### IngressRoute
 Application de l'ingress route pour treafik
@@ -57,9 +57,40 @@ Commande a exécuté a la racine de Projet_k8s
 helm install micro-service ./helm-kube --namespace ynov
 ```
 Il faut modifier le fichier appseting.json dans web pour généré une bonne image
-# Prometheus To-Do
+# Prometheus
 ### Install
-helm install prometheus prometheus-community/kube-prometheus-stack --version 69.2.2 --namespace monitoring
+```bash
+helm upgrade --install prometheus prometheus-community/kube-prometheus-stack --version 69.4.1 -n monitoring -f prometheus_value.yaml
+```
+```bash
+kubectl apply -f ingressroute.yaml
+```
+### 🚦 les métriques de l'état du cluster:
+| Objectif                          | Requête PromQL                                 | Explication |
+|------------------------------------|-----------------------------------------------|-------------|
+| Nombre total de nœuds             | `kube_node_info`                        | Affiche le nombre total de nœuds dans le cluster. |
+| Nombre de nœuds Ready             | `kube_node_status_condition{condition="Ready",status="true"}` | Compte les nœuds qui sont Ready. |
+| Nombre de nœuds NotReady          | `kube_node_status_condition{condition="Ready",status="false"}` | Compte les nœuds non disponibles. |
+| État des pods (Running, Pending)  | `kube_pod_status_phase{namespace="ynov"}`                        | Affiche le nombre de pods dans chaque état. |
+
+
+### 📡 Ressources des Nœuds et des Pods
+
+| Objectif                          | Requête PromQL                                 | Explication |
+|------------------------------------|-----------------------------------------------|-------------|
+| Utilisation CPU des nœuds %         | `100 - (avg(rate(node_cpu_seconds_total{mode="idle"}[5m])) by (instance) * 100)` | Affiche la consommation CPU de chaque nœud. |
+| DIsponible mémoire des nœuds     | `node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100` | Pourcentage de mémoire disponible. |
+| Utilisation CPU des pods          | `sum(rate(container_cpu_usage_seconds_total[5m])) by (pod) * 1000` | Consommation CPU par pod. |
+| Utilisation mémoire des pods      | `sum(container_memory_usage_bytes) by (pod) / 1073741824` | Consommation mémoire par pod. |
+| État des composants du cluster    | `up`                                          | Vérifie si les composants sont UP ou DOWN. |
+
+group by (job) (up)
+up{job="kube-state-metrics"}
+up{job="kube-proxy"}
+up{job="apiserver"}
+up{job="kubelet"}
+
+
 # ELK To-Do
 # Outils-k9s
 ### k9s
