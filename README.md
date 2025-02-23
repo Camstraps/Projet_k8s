@@ -34,11 +34,7 @@ helm repo update
 ```
 Installation de treafik a partir de sa charte helm
 ```bash
-helm install traefik traefik/traefik --namespace traefik -f traefik/value.yaml
-```
-Upgrade treafik helm
-```bash
-helm upgrade traefik traefik/traefik --namespace traefik -f traefik/value.yaml
+helm upgrade --install traefik traefik/traefik --namespace traefik -f traefik/value.yaml
 ```
 ### IngressRoute
 Application de l'ingress route pour treafik
