@@ -12,8 +12,10 @@
  - [Outils-k9s](#Outils-k9s)       :white_check_mark:
 
  ## A faire
+  - optimiser commande kibana
+  [Groupe]
   - author.txt
-  -repartition des taches
+  - repartition des taches
 
 # Minikube
 ### Start
@@ -79,6 +81,8 @@ Remplacer xxxx par le nom des 3 namespace
 ``` bash
 openssl req -x509 -newkey rsa:4096 -sha256 -days 365 -nodes -keyout leo.local.key -out leo.local.crt -subj "/CN=*.leo.local" -addext "subjectAltName=DNS:*.leo.local"
 ```
+
+Exécuter la commande 3 fois en remplaçant xxxx par le nom de chaque namespace
 ```bash
 kubectl create secret tls traefik --cert=leo.local.crt --key=leo.local.key --namespace=xxxx
 ```
