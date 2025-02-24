@@ -13,7 +13,8 @@
 
  ## A faire
   - optimiser commande kibana
-  [Groupe]
+---
+  - [Groupe]
   - author.txt
   - repartition des taches
 
