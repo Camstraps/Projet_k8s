@@ -54,4 +54,4 @@ spec:
         - name: rabbitmq-service
           port: {{ .Values.rabbitmq.service.management.port }}
   tls:
-    secretName: tls-all
+    secretName: traefik

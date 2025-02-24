@@ -80,4 +80,4 @@ spec:
         - name: web-service
           port: {{ .Values.web.service.port }}
   tls:
-    secretName: tls-all
+    secretName: traefik
