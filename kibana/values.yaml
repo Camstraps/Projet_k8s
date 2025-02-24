@@ -1,0 +1,13 @@
+elasticsearch:
+  hosts:
+    - elk-elasticsearch
+  port: 9200
+
+resources:
+  limits:
+    memory: 4Gi
+  requests:
+    memory: 4Gi
+
+service:
+  type: ClusterIP
