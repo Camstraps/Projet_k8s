@@ -3,18 +3,18 @@ master:
   replicaCount: 1
   resources:
     requests:
-      memory: 512Mi
-      cpu: 250m
-    limits:
       memory: 1Gi
-      cpu: 600m
+      cpu: 1
+    limits:
+      memory: 2Gi
+      cpu: 3
   persistence:
     enabled: true
     size: 5Gi
   livenessProbe:
-    enabled: false
+    enabled: true
   readinessProbe:
-    enabled: false
+    enabled: true
 
 data:
   replicaCount: 1
@@ -24,43 +24,43 @@ data:
     storageClass: "standard"
   resources:
     requests:
-      memory: 700Mi
+      memory: 1Gi
       cpu: 500m
     limits:
-      memory: 2Gi
-      cpu: 1
+      memory: 3Gi
+      cpu: 2
   livenessProbe:
-    enabled: false
+    enabled: true
   readinessProbe:
-    enabled: false
+    enabled: true
 
 coordinating:
   replicaCount: 1
   resources:
     requests:
       memory: 512Mi
-      cpu: 250m
+      cpu: 500m
     limits:
       memory: 2Gi
-      cpu: 600m
+      cpu: 1
   livenessProbe:
-    enabled: false
+    enabled: true
   readinessProbe:
-    enabled: false
+    enabled: true
 
 ingest:
   replicaCount: 1
   resources:
     requests:
       memory: 512Mi
-      cpu: 250m
+      cpu: 1
     limits:
       memory: 1Gi
-      cpu: 600m
+      cpu: 2
   livenessProbe:
-    enabled: false
+    enabled: true
   readinessProbe:
-    enabled: false
+    enabled: true
 
 service:
   type: ClusterIP

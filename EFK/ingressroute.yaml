@@ -24,7 +24,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`elk.leo.local`)
+    - match: Host(`elastic.leo.local`)
       kind: Rule
       services:
         - name: elasticsearch

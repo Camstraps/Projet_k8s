@@ -14,10 +14,10 @@ elasticsearch:
 resources:
   requests:
     cpu: 500m
-    memory: 512Mi
-  limits:
-    cpu: 1
     memory: 1Gi
+  limits:
+    cpu: 2
+    memory: 3Gi
 
 service:
   type: ClusterIP
@@ -25,15 +25,15 @@ service:
 livenessProbe:
   enabled: true
   initialDelaySeconds: 120
-  periodSeconds: 15
-  timeoutSeconds: 20
+  periodSeconds: 10
+  timeoutSeconds: 5
   failureThreshold: 6
   successThreshold: 1
 readinessProbe:
   enabled: true
-  initialDelaySeconds: 120
-  periodSeconds: 15
-  timeoutSeconds: 20
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
   failureThreshold: 6
   successThreshold: 1
 persistence:
