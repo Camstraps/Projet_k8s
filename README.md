@@ -164,6 +164,12 @@ kubectl create secret generic elasticsearch-master-credentials \
   --from-literal=password=Btssio75000 \
   -n monitoring
 ```
+```bash
+kubectl create secret generic elasticsearch-master-certs \ 
+  --from-literal=username=elastic \
+  --from-literal=password=Btssio75000 \
+  -n monitoring
+  ```
 ### Installation
 ```bash
 helm upgrade --install filebeat elastic/filebeat --namespace monitoring  -f filebeat/values.yaml
