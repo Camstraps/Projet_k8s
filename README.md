@@ -6,7 +6,14 @@
  - [Micro-Service](#Micro-Service) :white_check_mark:
  - [Prometheus](#Prometheus)       :white_check_mark:
  - [ELK](#ELK)                     :white_check_mark:
+  - ajouter le pluggin securité    :x:
+  - augmentation de la memoire kibana :x:
+  - revision values.yaml filebeat  :x:
  - [Outils-k9s](#Outils-k9s)       :white_check_mark:
+
+ ## A faire
+  - author.txt
+  -repartition des taches
 
 # Minikube
 ### Start
@@ -68,6 +75,7 @@ kubectl apply -f traefik/ingress_traefik.yaml
 # Certificat
 ### SSL
 Création d'un certificat avec OpenSSL pour tout les sous-domaine ``` *.leo.local ```
+Remplacer xxxx par le nom des 3 namespace
 ``` bash
 openssl req -x509 -newkey rsa:4096 -sha256 -days 365 -nodes -keyout leo.local.key -out leo.local.crt -subj "/CN=*.leo.local" -addext "subjectAltName=DNS:*.leo.local"
 ```
