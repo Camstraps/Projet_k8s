@@ -4,14 +4,24 @@
  - [Traefik](#Traefik)             :white_check_mark:
  - [Certificat](#Certificat)       :white_check_mark:
  - [Micro-Service](#Micro-Service) :white_check_mark:
- - [Prometheus](#Prometheus)       :x:
- - [ELK](#ELK)                     :x:
+ - [Prometheus](#Prometheus)       :white_check_mark:
+ - [ELK](#ELK)                     :white_check_mark:
+  - ajouter le pluggin securité    :x:
+  - augmentation de la memoire kibana :x:
+  - revision values.yaml filebeat  :x:
  - [Outils-k9s](#Outils-k9s)       :white_check_mark:
+
+ ## A faire
+  - optimiser commande kibana
+---
+  - [Groupe]
+  - author.txt
+  - repartition des taches
 
 # Minikube
 ### Start
 ```bash
-minikube start
+minikube start --cpus=8 --memory=16384 --disk-size=40g
 ```
 ### Tunnel
 Expose L'ip des pods sur la machine Hote
@@ -21,6 +31,30 @@ minikube tunnel
 ### Active metrics-server
 ```bash 
 minikube addons enable metrics-server
+```
+### Config systeme pour elk
+```bash
+minikube ssh -- "echo 'vm.max_map_count=262144' | sudo tee -a /etc/sysctl.conf && \
+                 echo 'fs.file-max=65536' | sudo tee -a /etc/sysctl.conf && \
+                 sudo sysctl -p"
+```
+### Creation des namespace
+Ynov
+```bash
+k create namespace ynov
+```
+Monitoring
+```bash
+k create namespace monitoring
+```
+Traefik
+```bash
+k create namespace traefik
+```
+## Repo helm
+Ajout de la chart bitnami utilisé dans la pluspart des charts présente ici
+```bash
+helm repo add bitnami https://charts.bitnami.com/bitnami
 ```
 # Traefik
 ### Installation
@@ -47,8 +81,10 @@ Création d'un certificat avec OpenSSL pour tout les sous-domaine ``` *.leo.loca
 ``` bash
 openssl req -x509 -newkey rsa:4096 -sha256 -days 365 -nodes -keyout leo.local.key -out leo.local.crt -subj "/CN=*.leo.local" -addext "subjectAltName=DNS:*.leo.local"
 ```
+
+Exécuter la commande 3 fois en remplaçant xxxx par le nom de chaque namespace
 ```bash
-kubectl create secret tls traefik --cert=leo.local.crt --key=leo.local.key --namespace=xxxx
+kubectl create secret tls traefik --cert=traefik/leo.local.crt --key=traefik/leo.local.key --namespace=xxxx
 ```
 # Micro-Service
 ### Helm
@@ -60,10 +96,10 @@ Il faut modifier le fichier appseting.json dans web pour généré une bonne ima
 # Prometheus
 ### Install
 ```bash
-helm upgrade --install prometheus prometheus-community/kube-prometheus-stack --version 69.4.1 -n monitoring -f prometheus_value.yaml
+helm upgrade --install prometheus prometheus-community/kube-prometheus-stack --version 69.4.1 -n monitoring -f prometheus/prometheus_value.yaml
 ```
 ```bash
-kubectl apply -f ingressroute.yaml
+kubectl apply -f prometheus/ingressroute.yaml
 ```
 ### 🚦 les métriques de l'état du cluster:
 | Objectif                          | Requête PromQL                                 | Explication |
@@ -84,17 +120,69 @@ kubectl apply -f ingressroute.yaml
 | Utilisation mémoire des pods      | `sum(container_memory_usage_bytes) by (pod) / 1073741824` | Consommation mémoire par pod. |
 | État des composants du cluster    | `up`                                          | Vérifie si les composants sont UP ou DOWN. |
 
-group by (job) (up)
-up{job="kube-state-metrics"}
-up{job="kube-proxy"}
-up{job="apiserver"}
-up{job="kubelet"}
+ - group by (job) (up)
+ - up{job="kube-state-metrics"}
+ - up{job="kube-proxy"}
+ - up{job="apiserver"}
+ - up{job="kubelet"}
 
 
 # ELK To-Do
+/!\ Plugin securité pas encore installé
+
+Installation ELK
+```bash
+helm install elk oci://registry-1.docker.io/bitnamicharts/elasticsearch -f ELK/values.yaml -n monitoring
+```
+
+Application de l'Ingressroute
+```bash
+kubectl apply -f ELK/ingressroute.yaml
+```
+## Kibana
+
+### Installation Kibana
+
+Commande pour installer kibana dans monitoring
+```bash
+helm upgrade --install elk-kibana bitnami/kibana --namespace monitoring -f kibana/values.yaml
+```
+
+## Filebeat
+### Ajout du repo pour filebeat
+```bash
+helm repo add elastic https://helm.elastic.co
+```
+Update
+```bash
+helm repo update
+```
+### Creation du secret pour la lisaison avec elk
+```bash
+kubectl create secret generic elasticsearch-master-credentials \
+  --from-literal=username=elastic \
+  --from-literal=password=Btssio75000 \
+  -n monitoring
+```
+```bash
+kubectl create secret generic elasticsearch-master-certs \ 
+  --from-literal=username=elastic \
+  --from-literal=password=Btssio75000 \
+  -n monitoring
+  ```
+### Installation
+```bash
+helm upgrade --install filebeat elastic/filebeat --namespace monitoring  -f filebeat/values.yaml
+```
 # Outils-k9s
 ### k9s
 Outils CLI Pour la gestions de k8s
+
+Installation: Arch
+```bash
+sudo pacman -S k9s
+```
+
 Installation: Ubuntu/Deb
 ```bash
 curl -sS https://webinstall.dev/k9s | bash
