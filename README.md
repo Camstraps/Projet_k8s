@@ -28,6 +28,19 @@ minikube ssh -- "echo 'vm.max_map_count=262144' | sudo tee -a /etc/sysctl.conf &
                  echo 'fs.file-max=65536' | sudo tee -a /etc/sysctl.conf && \
                  sudo sysctl -p"
 ```
+### Creation des namespace
+Ynov
+```bash
+k create namespace ynov
+```
+Monitoring
+```bash
+k create namespace monitoring
+```
+Traefik
+```bash
+k create namespace traefik
+```
 ## Repo helm
 Ajout de la chart bitnami utilisé dans la pluspart des charts présente ici
 ```bash
