@@ -1,0 +1,44 @@
+
+image:
+  registry: docker.io
+  repository: bitnami/kibana
+  tag: 8.17.2-debian-12-r0
+
+replicaCount: 1
+
+elasticsearch:
+  hosts:
+    - elasticsearch
+  port: 9200
+
+resources:
+  requests:
+    cpu: 500m
+    memory: 512Mi
+  limits:
+    cpu: 1
+    memory: 1Gi
+
+service:
+  type: ClusterIP
+
+livenessProbe:
+  enabled: true
+  initialDelaySeconds: 120
+  periodSeconds: 15
+  timeoutSeconds: 20
+  failureThreshold: 6
+  successThreshold: 1
+readinessProbe:
+  enabled: true
+  initialDelaySeconds: 120
+  periodSeconds: 15
+  timeoutSeconds: 20
+  failureThreshold: 6
+  successThreshold: 1
+persistence:
+  enabled: true
+  size: 2Gi
+  storageClass: "standard"
+metrics:
+  enabled: false
