@@ -145,12 +145,7 @@ kubectl apply -f ELK/ingressroute.yaml
 
 Commande pour installer kibana dans monitoring
 ```bash
-helm install elk-kibana bitnami/kibana --namespace monitoring
-```
-
-Upgrade pour ajouter la lisaison avec le serveur elk
-```bash
-helm upgrade --namespace monitoring elk-kibana oci://registry-1.docker.io/bitnamicharts/kibana  --set "elasticsearch.hosts[0]=elk-elasticsearch,elasticsearch.port=9200"
+helm upgrade --install elk-kibana bitnami/kibana --namespace monitoring -f kibana/values.yaml
 ```
 
 ## Filebeat
