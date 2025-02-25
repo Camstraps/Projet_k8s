@@ -1,7 +1,7 @@
 # Projet_k8s
 ### Prérequis
  - [Minikube](#Minikube)           :white_check_mark:
-   -[Start] (###Start)
+   - [Start] (###Start)
  - [Traefik](#Traefik)             :white_check_mark:
  - [Certificat](#Certificat)       :white_check_mark:
  - [Micro-Service](#Micro-Service) :white_check_mark:
