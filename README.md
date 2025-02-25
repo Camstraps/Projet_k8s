@@ -6,17 +6,7 @@
  - [Micro-Service](#Micro-Service) :white_check_mark:
  - [Prometheus](#Prometheus)       :white_check_mark:
  - [ELK](#ELK)                     :white_check_mark:
-  - ajouter le pluggin securité    :x:
-  - augmentation de la memoire kibana :x:
-  - revision values.yaml filebeat  :x:
  - [Outils-k9s](#Outils-k9s)       :white_check_mark:
-
- ## A faire
-  - optimiser commande kibana
----
-  - [Groupe]
-  - author.txt
-  - repartition des taches
 
 # Minikube
 ### Start
@@ -31,12 +21,6 @@ minikube tunnel
 ### Active metrics-server
 ```bash 
 minikube addons enable metrics-server
-```
-### Config systeme pour elk
-```bash
-minikube ssh -- "echo 'vm.max_map_count=262144' | sudo tee -a /etc/sysctl.conf && \
-                 echo 'fs.file-max=65536' | sudo tee -a /etc/sysctl.conf && \
-                 sudo sysctl -p"
 ```
 ### Creation des namespace
 Ynov
@@ -128,48 +112,24 @@ kubectl apply -f prometheus/ingressroute.yaml
 
 
 # ELK To-Do
-/!\ Plugin securité pas encore installé
-
-Installation ELK
+### ElasticSearch
 ```bash
-helm install elk oci://registry-1.docker.io/bitnamicharts/elasticsearch -f ELK/values.yaml -n monitoring
+helm upgrade --install elasticsearch bitnami/elasticsearch -f EK/elasticsearch_values.yaml -n monitoring
 ```
-
-Application de l'Ingressroute
-```bash
-kubectl apply -f ELK/ingressroute.yaml
-```
-## Kibana
-
-### Installation Kibana
-
+### Kibana
 Commande pour installer kibana dans monitoring
 ```bash
 helm upgrade --install elk-kibana bitnami/kibana --namespace monitoring -f kibana/values.yaml
 ```
+Application de l'Ingressroute
+```bash
+kubectl apply -f EK/ingressroute.yaml
+```
 
-## Filebeat
-### Ajout du repo pour filebeat
+### Filebeat
 ```bash
 helm repo add elastic https://helm.elastic.co
 ```
-Update
-```bash
-helm repo update
-```
-### Creation du secret pour la lisaison avec elk
-```bash
-kubectl create secret generic elasticsearch-master-credentials \
-  --from-literal=username=elastic \
-  --from-literal=password=Btssio75000 \
-  -n monitoring
-```
-```bash
-kubectl create secret generic elasticsearch-master-certs \ 
-  --from-literal=username=elastic \
-  --from-literal=password=Btssio75000 \
-  -n monitoring
-  ```
 ### Installation
 ```bash
 helm upgrade --install filebeat elastic/filebeat --namespace monitoring  -f filebeat/values.yaml
