@@ -8,7 +8,9 @@
   - [ELK](#ELK)                       :white_check_mark:
     - [ElasticSearch](#elasticsearch) :white_check_mark:
     - [Kibana](#kibana) :white_check_mark:
-  - [Outils-k9s](#Outils-k9s)         :white_check_mark:
+    - [Filebeat](#filebeat) :white_check_mark:
+  - [Outils](#Outils)         :white_check_mark:
+    - [k9s](#k9s) :white_check_mark:
 
 # Minikube
 ### Start
@@ -138,10 +140,9 @@ Installation Filebeat dans monitoring
 ```bash
 helm upgrade --install filebeat elastic/filebeat -f EK/filebeat_values.yaml -n monitoring
 ```
-# Outils-k9s
+# Outils
 ### k9s
 Outils CLI Pour la gestions de k8s
-
 Installation: Arch
 ```bash
 sudo pacman -S k9s
