@@ -4,7 +4,10 @@
   - [Traefik](#Traefik)               :white_check_mark:
   - [Certificat](#Certificat)         :white_check_mark:
   - [Micro-Service](#Micro-Service)   :white_check_mark:
+    - [Helm](#helm) :white_check_mark:
   - [Prometheus](#Prometheus)         :white_check_mark:
+    - [Install](#install) :white_check_mark:
+    - [metrics](#metrics) :white_check_mark:
   - [ELK](#ELK)                       :white_check_mark:
     - [ElasticSearch](#elasticsearch) :white_check_mark:
     - [Kibana](#kibana) :white_check_mark:
@@ -89,6 +92,7 @@ helm upgrade --install prometheus prometheus-community/kube-prometheus-stack --v
 ```bash
 kubectl apply -f prometheus/ingressroute.yaml
 ```
+### Metrics
 ### 🚦 les métriques de l'état du cluster:
 | Objectif                          | Requête PromQL                                 | Explication |
 |------------------------------------|-----------------------------------------------|-------------|
@@ -143,6 +147,7 @@ helm upgrade --install filebeat elastic/filebeat -f EK/filebeat_values.yaml -n m
 # Outils
 ### k9s
 Outils CLI Pour la gestions de k8s
+
 Installation: Arch
 ```bash
 sudo pacman -S k9s
