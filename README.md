@@ -113,23 +113,26 @@ kubectl apply -f prometheus/ingressroute.yaml
 
 # ELK
 ### ElasticSearch
+Installation ElasticSearch dans monitoring
 ```bash
 helm upgrade --install elasticsearch bitnami/elasticsearch -f EK/elasticsearch_values.yaml -n monitoring
 ```
 ### Kibana
-Commande pour installer kibana dans monitoring
+Installation Kibana dans monitoring
 ```bash
 helm upgrade --install elk-kibana bitnami/kibana --namespace monitoring -f kibana/values.yaml
 ```
-Application de l'Ingressroute
+Ingressroute
 ```bash
 kubectl apply -f EK/ingressroute.yaml
 ```
 
 ### Filebeat
+ajout du repo elastic
 ```bash
 helm repo add elastic https://helm.elastic.co
 ```
+Installation Filebeat dans monitoring
 ```bash
 helm upgrade --install filebeat elastic/filebeat -f EK/filebeat_values.yaml -n monitoring
 ```
