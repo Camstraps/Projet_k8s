@@ -13,4 +13,4 @@ spec:
         - name: prometheus-operated
           port: 9090
   tls:
-    secretName: tls-all
+    secretName: traefik
