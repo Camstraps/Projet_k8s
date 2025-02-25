@@ -1,22 +1,19 @@
 # Projet_k8s
 ### Prérequis
- - [Minikube](#)                   :white_check_mark:
- - [Traefik](#Traefik)             :white_check_mark:
- - [Certificat](#Certificat)       :white_check_mark:
- - [Micro-Service](#Micro-Service) :white_check_mark:
- - [Prometheus](#Prometheus)       :white_check_mark:
- - [ELK](#ELK)                     :white_check_mark:
-  - ajouter le pluggin securité    :x:
-  - augmentation de la memoire kibana :x:
-  - revision values.yaml filebeat  :x:
- - [Outils-k9s](#Outils-k9s)       :white_check_mark:
-
- ## A faire
-  - optimiser commande kibana
----
-  - [Groupe]
-  - author.txt
-  - repartition des taches
+  - [Minikube](#Minikube)             :white_check_mark:
+  - [Traefik](#Traefik)               :white_check_mark:
+  - [Certificat](#Certificat)         :white_check_mark:
+  - [Micro-Service](#Micro-Service)   :white_check_mark:
+    - [Helm](#helm) :white_check_mark:
+  - [Prometheus](#Prometheus)         :white_check_mark:
+    - [Install](#install) :white_check_mark:
+    - [metrics](#metrics) :white_check_mark:
+  - [ELK](#ELK)                       :white_check_mark:
+    - [ElasticSearch](#elasticsearch) :white_check_mark:
+    - [Kibana](#kibana) :white_check_mark:
+    - [Filebeat](#filebeat) :white_check_mark:
+  - [Outils](#Outils)         :white_check_mark:
+    - [k9s](#k9s) :white_check_mark:
 
 # Minikube
 ### Start
@@ -31,12 +28,6 @@ minikube tunnel
 ### Active metrics-server
 ```bash 
 minikube addons enable metrics-server
-```
-### Config systeme pour elk
-```bash
-minikube ssh -- "echo 'vm.max_map_count=262144' | sudo tee -a /etc/sysctl.conf && \
-                 echo 'fs.file-max=65536' | sudo tee -a /etc/sysctl.conf && \
-                 sudo sysctl -p"
 ```
 ### Creation des namespace
 Ynov
@@ -101,6 +92,7 @@ helm upgrade --install prometheus prometheus-community/kube-prometheus-stack --v
 ```bash
 kubectl apply -f prometheus/ingressroute.yaml
 ```
+### Metrics
 ### 🚦 les métriques de l'état du cluster:
 | Objectif                          | Requête PromQL                                 | Explication |
 |------------------------------------|-----------------------------------------------|-------------|
@@ -127,54 +119,32 @@ kubectl apply -f prometheus/ingressroute.yaml
  - up{job="kubelet"}
 
 
-# ELK To-Do
-/!\ Plugin securité pas encore installé
-
-Installation ELK
+# ELK
+### ElasticSearch
+Installation ElasticSearch dans monitoring
 ```bash
-helm install elk oci://registry-1.docker.io/bitnamicharts/elasticsearch -f ELK/values.yaml -n monitoring
+helm upgrade --install elasticsearch bitnami/elasticsearch -f EK/elasticsearch_values.yaml -n monitoring
 ```
-
-Application de l'Ingressroute
-```bash
-kubectl apply -f ELK/ingressroute.yaml
-```
-## Kibana
-
-### Installation Kibana
-
-Commande pour installer kibana dans monitoring
+### Kibana
+Installation Kibana dans monitoring
 ```bash
 helm upgrade --install elk-kibana bitnami/kibana --namespace monitoring -f kibana/values.yaml
 ```
+Ingressroute
+```bash
+kubectl apply -f EK/ingressroute.yaml
+```
 
-## Filebeat
-### Ajout du repo pour filebeat
+### Filebeat
+ajout du repo elastic
 ```bash
 helm repo add elastic https://helm.elastic.co
 ```
-Update
+Installation Filebeat dans monitoring
 ```bash
-helm repo update
+helm upgrade --install filebeat elastic/filebeat -f EK/filebeat_values.yaml -n monitoring
 ```
-### Creation du secret pour la lisaison avec elk
-```bash
-kubectl create secret generic elasticsearch-master-credentials \
-  --from-literal=username=elastic \
-  --from-literal=password=Btssio75000 \
-  -n monitoring
-```
-```bash
-kubectl create secret generic elasticsearch-master-certs \ 
-  --from-literal=username=elastic \
-  --from-literal=password=Btssio75000 \
-  -n monitoring
-  ```
-### Installation
-```bash
-helm upgrade --install filebeat elastic/filebeat --namespace monitoring  -f filebeat/values.yaml
-```
-# Outils-k9s
+# Outils
 ### k9s
 Outils CLI Pour la gestions de k8s
 
@@ -182,7 +152,6 @@ Installation: Arch
 ```bash
 sudo pacman -S k9s
 ```
-
 Installation: Ubuntu/Deb
 ```bash
 curl -sS https://webinstall.dev/k9s | bash

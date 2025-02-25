@@ -1,0 +1,70 @@
+
+master:
+  replicaCount: 1
+  resources:
+    requests:
+      memory: 1Gi
+      cpu: 1
+    limits:
+      memory: 2Gi
+      cpu: 3
+  persistence:
+    enabled: true
+    size: 5Gi
+  livenessProbe:
+    enabled: true
+  readinessProbe:
+    enabled: true
+
+data:
+  replicaCount: 1
+  persistence:
+    enabled: true
+    size: 5Gi
+    storageClass: "standard"
+  resources:
+    requests:
+      memory: 1Gi
+      cpu: 500m
+    limits:
+      memory: 3Gi
+      cpu: 2
+  livenessProbe:
+    enabled: true
+  readinessProbe:
+    enabled: true
+
+coordinating:
+  replicaCount: 1
+  resources:
+    requests:
+      memory: 512Mi
+      cpu: 500m
+    limits:
+      memory: 2Gi
+      cpu: 1
+  livenessProbe:
+    enabled: true
+  readinessProbe:
+    enabled: true
+
+ingest:
+  replicaCount: 1
+  resources:
+    requests:
+      memory: 512Mi
+      cpu: 1
+    limits:
+      memory: 1Gi
+      cpu: 2
+  livenessProbe:
+    enabled: true
+  readinessProbe:
+    enabled: true
+
+service:
+  type: ClusterIP
+  ports:
+    restAPI: 9200
+    transport: 9300
+
