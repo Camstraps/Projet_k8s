@@ -111,7 +111,7 @@ kubectl apply -f prometheus/ingressroute.yaml
  - up{job="kubelet"}
 
 
-# ELK To-Do
+# ELK
 ### ElasticSearch
 ```bash
 helm upgrade --install elasticsearch bitnami/elasticsearch -f EK/elasticsearch_values.yaml -n monitoring
@@ -130,9 +130,8 @@ kubectl apply -f EK/ingressroute.yaml
 ```bash
 helm repo add elastic https://helm.elastic.co
 ```
-### Installation
 ```bash
-helm upgrade --install filebeat elastic/filebeat --namespace monitoring  -f filebeat/values.yaml
+helm upgrade --install filebeat elastic/filebeat -f EK/filebeat_values.yaml -n monitoring
 ```
 # Outils-k9s
 ### k9s
@@ -142,7 +141,6 @@ Installation: Arch
 ```bash
 sudo pacman -S k9s
 ```
-
 Installation: Ubuntu/Deb
 ```bash
 curl -sS https://webinstall.dev/k9s | bash
