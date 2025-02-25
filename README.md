@@ -145,6 +145,14 @@ Installation Filebeat dans monitoring
 helm upgrade --install filebeat elastic/filebeat -f EK/filebeat_values.yaml -n monitoring
 ```
 # Outils
+### Lens
+
+Installation arch:
+```bash
+git clone https://aur.archlinux.org/packages/lens-bin
+cd lens-bin/
+makepkg -si
+```
 ### k9s
 Outils CLI Pour la gestions de k8s
 
