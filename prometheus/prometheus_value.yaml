@@ -21,7 +21,6 @@ prometheusOperator:
     successThreshold: 1
     timeoutSeconds: 1
 
-### Prometheus
 prometheus:
   enabled: true
   prometheusSpec:
@@ -38,13 +37,6 @@ prometheus:
       limits:
         cpu: "500m"
         memory: "512Mi"
-    # additionalScrapeConfigs:
-    #   - job_name: 'metrics-server'
-    #     scheme: https
-    #     tls_config:
-    #       insecure_skip_verify: true
-    #     static_configs:
-    #       - targets: ['metrics-server.monitoring.svc.cluster.local:443']
 
 kubeControllerManager:
   enabled: false
