@@ -1,0 +1,27 @@
+# AUTHORS.TXT - Projet Conteneurisation et Orchestration
+
+## Membres du groupe :
+1. Leo Bourse
+2. Paco Hameline
+3. Kylian Boin
+
+## Répartition des responsabilités :
+
+- **Leo Bourse** : 
+  - Déploiement Kubernetes
+  - Automatisation du déploiement avec Helm
+  - Sécurisation avec certificats SSL et Ingress
+  - Configuration réseau (Traefik, Services, Volumes)
+
+- **Paco Hameline** :
+  - Création des images Docker et stockage sur registre privé
+  - Sécurisation avec certificats SSL et Ingress
+  - Monitoring du cluster avec Prometheus
+
+- **Kylian Boin** :
+  
+  - Configuration des logs et mise en place de la stack ELK (Elasticsearch, Kibana, Filebeat)
+  - Configuration réseau (Traefik, Services, Volumes)
+  - Monitoring du cluster avec Prometheus
+  - Configuration des ressources des pods (CPU, mémoire)
+
