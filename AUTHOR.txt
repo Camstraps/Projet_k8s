@@ -20,7 +20,7 @@
 
 - **Kylian Boin** :
   
-  - Configuration des logs et mise en place de la stack ELK (Elasticsearch, Kibana, Filebeat)
+  - Configuration des logs et mise en place de la stack EFK (Elasticsearch, Kibana, Filebeat)
   - Configuration réseau (Traefik, Services, Volumes)
   - Monitoring du cluster avec Prometheus
   - Configuration des ressources des pods (CPU, mémoire)
